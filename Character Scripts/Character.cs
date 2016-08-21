@@ -5,6 +5,7 @@ public abstract class Character : MonoBehaviour {
 
 	protected Rigidbody2D myBody;
 	protected Animator anim;
+	protected BoxCollider2D boxCollider;
 	protected float health;
 
 	// Use this for initialization
@@ -20,6 +21,8 @@ public abstract class Character : MonoBehaviour {
 	public void takeDamage(){
 
 	}
+
+	public void jump(){}
 
 	public void die(){
 

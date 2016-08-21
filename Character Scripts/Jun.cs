@@ -8,6 +8,8 @@ public class Jun : Character {
 	private enum weapon{};
 	private bool isMoving = false;
 	private float moveForceX = 5f;
+	public float jumpForce;
+	private bool onSurface = true;
 
 	void Awake(){
 		if (instance == null) {
@@ -15,10 +17,14 @@ public class Jun : Character {
 		}
 
 		//Initialise player components
-		myBody = GetComponent<Rigidbody2D> (); 
-		anim = GetComponent<Animator> ();
+		myBody = this.GetComponent<Rigidbody2D> (); 
+		anim = this.GetComponent<Animator> ();
+		boxCollider = this.GetComponent<BoxCollider2D> ();
 
+		boxCollider.sharedMaterial.friction = 0f; 
 		isMoving = true;
+
+		this.move ();
 	}
 
 	// Use this for initialization
@@ -28,11 +34,14 @@ public class Jun : Character {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		move ();
+//		move ();
 	}
 
 	public void jump(){
-
+		if (onSurface) {
+			myBody.velocity = new Vector2 (myBody.velocity.x, jumpForce);
+		}
+		onSurface = false;
 	}
 
 	public void attack(){
@@ -40,12 +49,24 @@ public class Jun : Character {
 	}
 
 	public void slide(){
-	
+		if (onSurface) {
+			boxCollider.offset = new Vector2 (boxCollider.offset.x,(-0.5f*((boxCollider.size.y/2.0f))-0.2f));
+			boxCollider.size = new Vector2(boxCollider.size.y, (boxCollider.size.x/2.0f));
+//			boxCollider.sharedMaterial.friction = 100.0f;
+			myBody.AddForce(new Vector2(-10000f, 0.0f));
+		}
 	}
 
 	public void move(){
 		if (isMoving) {
 			myBody.velocity = new Vector2(moveForceX,myBody.velocity.y);
+//			myBody.AddForceAtPosition(new Vector2(moveForceX,0.0f), new Vector2(0.0f, -boxCollider.size.y/2.0f));
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D target) {
+		if (target.tag == "Platform") {
+			onSurface = true;	
 		}
 	}
 
