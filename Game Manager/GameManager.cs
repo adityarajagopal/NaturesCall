@@ -129,16 +129,19 @@ public class GameManager : MonoBehaviour {
 
 		CalcBlockOrder (blockArr);
 		LoadLevel (blockArr);
+
+
 	}
 
 	// Update is called once per frame
 	void Update () {
 //		Jun.instance.move ();
-
 		if (Input.GetKeyDown ("up")) {
 			Jun.instance.jump ();
 		} else if (Input.GetKeyDown ("down")) {
 			Jun.instance.slide (); 
+		} else if (Input.GetKeyUp ("down")) {
+			Jun.instance.endSlide(); 
 		}
 
 //		if (lerpingCamera) {
@@ -293,10 +296,12 @@ public class GameManager : MonoBehaviour {
 		List<int> repeatIndices = new List<int> ();
 		blockArr [0] = platforms[0];
 		repeatIndices.Add (0); 
+		blockArr [1] = platforms [13]; 
+		repeatIndices.Add (13); 
 		//Random rnd = new Random ();
 		int index; 
 				
-		for (int count=1; count<levelSize-1; count++) {
+		for (int count=2; count<levelSize-1; count++) {
 			do
 			{
 				index = Random.Range(1,numPlatforms-1); 
