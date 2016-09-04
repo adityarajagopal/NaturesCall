@@ -7,17 +7,24 @@ public class MovePlatform : MonoBehaviour
 	private float tileSizeX = 57.6f;
 	
 	private float lerpX;
-	private bool lerping;
 	private int count = 0; 
 	private Vector2 endPosition; 
 	private Vector2 newPosition;
 	private Vector2 offset;
 
+	public bool lerping;
+	public static MovePlatform instance; 
+
 	void Awake ()
 	{
+		if (instance == null) {
+			instance = this; 
+		}
 //		this.startPosition = transform.position.x;
-		offset = new Vector2 (-15*tileSizeX, 0);
-		endPosition = new Vector2(transform.position.x + offset.x,transform.position.y + offset.y);
+//		offset = new Vector2 (-15*tileSizeX, 0);
+		offset = new Vector2 (15*tileSizeX, 0);
+//		endPosition = new Vector2(transform.position.x + offset.x,transform.position.y + offset.y);
+		endPosition = new Vector3(this.transform.position.x + offset.x,this.transform.position.y + offset.y,this.transform.position.z);
 //		this.endPosition = transform.position.x - (tileSizeX);
 		lerping = true; 
 	}
@@ -27,6 +34,7 @@ public class MovePlatform : MonoBehaviour
 		if (lerping) {
 			Lerp ();
 		} 
+//		Lerp ();
 	}
 		//float newPosition = Mathf.Repeat(Time.time * scrollSpeed, tileSizeX);
 		//float newPosition = Mathf.Lerp(transform.position.x,transform.position.x-tileSizeX,Time.deltaTime * scrollSpeed);
@@ -39,15 +47,15 @@ public class MovePlatform : MonoBehaviour
 
 	void Lerp(){
 //		lerpX = transform.position.x - tileSizeX; 
-		transform.position = Vector2.MoveTowards( transform.position, endPosition, scrollSpeed*Time.deltaTime);
+		this.transform.position = Vector3.MoveTowards(this.transform.position, endPosition, scrollSpeed*Time.deltaTime);
 		
 //		float newPosition = Mathf.Lerp(transform.position.x,this.endPosition,Time.deltaTime * scrollSpeed);
 		//newPosition = new Vector2 (newPosition.x, transform.position.y);
 		//transform.position = newPosition;
 
 
-		if (transform.position.x <= endPosition.x + 0.2f) {
-			lerping = false;
-		}
+//		if (this.transform.position.x <= endPosition.x - 0.2f) {
+//			lerping = false;
+//		}
 	}
 }

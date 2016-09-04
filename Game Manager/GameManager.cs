@@ -143,71 +143,24 @@ public class GameManager : MonoBehaviour {
 		} else if (Input.GetKeyUp ("down")) {
 			Jun.instance.endSlide(); 
 		}
-
-//		if (lerpingCamera) {
-//			LerpCamera (); 
-//		} 
-		//TrackPlayer (); 
-//		if (Input.GetKeyDown ("up")) {
-//			lerpingCamera = true;
-//			Debug.Log("up pressed: " + Camera.main.transform.position.y);
-//			if(Camera.main.transform.position.y < -0.02){
-//				this.lerpY = 0.0f;
-//			}
-//			else {
-//				Debug.Log("entered");
-//				this.lerpY = 10.80f;
-//			}
-//			//to_delete = GameObject.FindGameObjectWithTag("Current");
-//		} else if (Input.GetKeyDown ("down")) {
-//			lerpingCamera = true;
-//			Debug.Log("down pressed: " + Camera.main.transform.position.y);
-//			if(Camera.main.transform.position.y >= 10.75f)
-//				this.lerpY = 0.0f;
-//			else 
-//				this.lerpY = -10.8f;
-//		}
 	}
-
-//	void LerpCamera() {
-//		float y = Camera.main.transform.position.y; 
-//		
-//		y = Mathf.Lerp (y,this.lerpY,lerpTime * Time.deltaTime);  
-//		Camera.main.transform.position = new Vector3 (Camera.main.transform.position.x,y,Camera.main.transform.position.z); 
-//		 
-//		if (this.lerpY >= 0) {
-//			if (Camera.main.transform.position.y >= (this.lerpY - 0.02f)) {
-//				lerpingCamera = false;
-//			}
-//		} else {
-//			if (Camera.main.transform.position.y <= (this.lerpY + 0.02f)) {
-//				lerpingCamera = false;
-//			}
-//		}
-//	}
-//	void TrackPlayer() {
-//		float currentY = Camera.main.transform.position.y;
-//		
-//		if (jun != null) {
-//			currentY = Mathf.Lerp (currentY, jun.transform.position.y, 8f * Time.deltaTime);
-//		}
-//		
-//		Camera.main.transform.position = new Vector3 (Camera.main.transform.position.x, currentY, Camera.main.transform.position.z);
-//	}
-
+	
 	void LoadLevel(Block[] blockArr){
  
 		Vector3 junPos = new Vector3 (-8.0f,0.0f,0.0f);
 		Vector3 ratPos = new Vector3 (10.0f,0.0f,0.0f);
-		Vector3 platformPos = new Vector3 (0.0f,0.0f,0.0f);
+		Vector3 platformPos = new Vector3 (0.0f, 0.0f, 0.0f); 
+		Vector3 platformPos1 = new Vector3 (0.0f,0.0f,-10.0f);
+		Vector3 platformPos2 = new Vector3 (0.0f, 0.0f, 0.0f); 
+		Vector3 platformPos3 = new Vector3 (0.0f, 0.0f, 10.0f); 
 		Vector3 platformWidth = new Vector3 (57.6f, 0.0f, 0.0f);
 		Vector3 increment = new Vector3(0,0,0);
 
 //		Instantiate (dangerZone); 
 //		Instantiate (cameraBoundaryRight);
 
-		Instantiate (junExternal, junPos, Quaternion.identity);
-		Debug.Log ("Instantiated Jun");
+//		Instantiate (junExternal, junPos, Quaternion.identity);
+//		Debug.Log ("Instantiated Jun");
 //		Instantiate (ratExternal, ratPos, Quaternion.identity);
 		for (int i=0; i<15; i++) {
 			Instantiate (sewerLayer1, platformPos, Quaternion.identity);
@@ -259,7 +212,7 @@ public class GameManager : MonoBehaviour {
 
 				if(blockArr[i].entry == "B"){
 //					Instantiate (downSlideB,platformPos+(increment/2.0f)+temp,Quaternion.identity); 
-					Debug.Log ("Instantiated downSlideB");
+//					Debug.Log ("Instantiated downSlideB");
 				}
 				else if(blockArr[i].entry == "M"){
 					Instantiate(downSlideM, platformPos+(increment/2.0f)+temp, Quaternion.identity); //doesn't crash with this
@@ -267,18 +220,18 @@ public class GameManager : MonoBehaviour {
 				}
 				else if(blockArr[i].entry == "T"){
 //					Instantiate(downSlideT, platformPos+(increment/2.0f)+temp, Quaternion.identity);
-					Debug.Log ("Instantiated downSlideT");
+//					Debug.Log ("Instantiated downSlideT");
 				}
 			}
 			else{
 				increment = new Vector3(57.6f,0,0);
 				Instantiate (blockArr[i].platform, platformPos+increment, Quaternion.identity);//platformPos+increment, Quaternion.identity);
-				Debug.Log ("Instantiated blockArr[" + i + "]");
+//				Debug.Log ("Instantiated blockArr[" + i + "]");
 
 				if(blockArr[i-1].exit == "T"){
 					if(blockArr[i].entry == "B"){
 //						Instantiate (slide, platformPos+(increment/2.0f), Quaternion.identity);
-						Debug.Log ("Instantiated slide");
+//						Debug.Log ("Instantiated slide");
 					}
 				}
 				else if(blockArr[i-1].exit == "B"){
@@ -298,15 +251,15 @@ public class GameManager : MonoBehaviour {
 		repeatIndices.Add (0); 
 		blockArr [1] = platforms [13]; 
 		repeatIndices.Add (13); 
-		//Random rnd = new Random ();
 		int index; 
 				
-		for (int count=2; count<levelSize-1; count++) {
+		for (int count=1; count<levelSize-1; count++) {
 			do
 			{
 				index = Random.Range(1,numPlatforms-1); 
 			}
 			while(repeatIndices.Contains (index));
+
 			repeatIndices.Add (index);
 			Debug.Log (count);
 			blockArr[count] = platforms[index]; 
