@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MovePlatform : MonoBehaviour
 {
-	private float scrollSpeed = 5.0f;
+	public float scrollSpeed = 5.0f;
 	private float tileSizeX = 57.6f;
 	
 	private float lerpX;

@@ -13,7 +13,8 @@ public class Jun : Character {
 	private bool isMoving = false;
 	private bool onSurface = true;
 	private bool isSliding = false; 
-	private bool climbing = false; 
+	private bool climbing = false;
+	private bool onLadder = false; 
 	private BoxCollider2D target;
 	private int level;
 	//timer related variables
@@ -36,7 +37,7 @@ public class Jun : Character {
 		anim = this.GetComponent<Animator> ();
 		boxCollider = this.GetComponent<BoxCollider2D> ();
 
-		boxCollider.sharedMaterial.friction = 0f; 
+		boxCollider.sharedMaterial.friction = 10f; 
 		isMoving = true;
 		this.target = null; 
 		this.movingCamera = false; 
@@ -90,6 +91,7 @@ public class Jun : Character {
 	}
 
 	public void endSlide(){
+		Debug.Log ("endSlide called"); 
 		this.anim.SetBool ("isSliding", false); 
 		boxCollider.offset = new Vector2 (0.0f, 0.0f);
 		boxCollider.size = new Vector2((boxCollider.size.y*2.0f),boxCollider.size.x);
@@ -103,11 +105,14 @@ public class Jun : Character {
 			onSurface = true;	
 		}
 		if (target.tag == "Ladder") {
-			Debug.Log("bitch I'm climbing a ladder"); 
-			this.climbing=true; 
-			Debug.Log (myBody.velocity); 
-//			myBody.velocity = new Vector2(0.0f, 0.0f);
-//			myBody.isKinematic = true; 
+			if(onLadder) return; 
+			this.onLadder = true; 
+			Debug.Log("bitch I'm climbing a ladder");
+			this.transform.parent = null; 
+			this.myBody.isKinematic = true;
+//			if (Input.GetKeyDown("up")) {
+			this.climbing=true; 	
+//			}
 			this.target = (BoxCollider2D) target; 
 		}
 	}
@@ -116,13 +121,14 @@ public class Jun : Character {
 //		Debug.Log ("yo details bitch"); 
 //		Debug.Log (this.target.size); 
 //		Debug.Log (transform.position);  
-		transform.position = Vector2.MoveTowards(transform.position, new Vector2(0.0f,this.target.size.y), this.ladderClimbSpeed*Time.deltaTime);
-		if (transform.position.y >= this.target.size.y - 0.2f) {
+		transform.position = Vector2.MoveTowards(this.transform.position, new Vector2(this.transform.position.x,this.target.size.y + 15f - this.transform.position.y), this.ladderClimbSpeed*Time.deltaTime);
+
+		if (this.transform.position.y >= this.target.size.y) {
 			Debug.Log("I should be fking done"); 
 			this.climbing = false; 
-			myBody.AddForce (new Vector2(moveForceX, 0.0f));
-//			myBody.isKinematic = false; 
-			Debug.Log (myBody.velocity); 
+			this.transform.parent = Camera.main.transform; 
+			this.myBody.isKinematic = false; 
+			this.onLadder = false; 
 		}
 	}
 
@@ -160,6 +166,7 @@ public class Jun : Character {
 	}
 
 	void moveCamera(){
+		Debug.Log ("move camera"); 
 		float x = Mathf.Lerp(Camera.main.transform.position.x,this.endPos.x,this.cameraResetSpeed*Time.deltaTime); 
 		Camera.main.transform.position = new Vector3 (x, Camera.main.transform.position.y, Camera.main.transform.position.z); 
 

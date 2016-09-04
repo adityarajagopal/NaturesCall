@@ -15,7 +15,7 @@ public class DangerZone : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D target) {
 		if (target.tag == "Jun") {
-			Debug.Log("GameOver");
+			Debug.Log ("GameOver");
 			UnityEditor.EditorApplication.isPlaying = false; 
 		}
 	}

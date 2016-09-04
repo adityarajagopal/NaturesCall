@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour {
 	
 	public static GameManager instance;
 
+	private Camera camera2; 
+
 	[SerializeField]
 	private GameObject junExternal;
 
@@ -253,7 +255,7 @@ public class GameManager : MonoBehaviour {
 		repeatIndices.Add (13); 
 		int index; 
 				
-		for (int count=1; count<levelSize-1; count++) {
+		for (int count=2; count<levelSize-1; count++) {
 			do
 			{
 				index = Random.Range(1,numPlatforms-1); 
