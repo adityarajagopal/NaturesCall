@@ -121,9 +121,10 @@ public class Jun : Character {
 //		Debug.Log ("yo details bitch"); 
 //		Debug.Log (this.target.size); 
 //		Debug.Log (transform.position);  
-		transform.position = Vector2.MoveTowards(this.transform.position, new Vector2(this.transform.position.x,this.target.size.y + 15f - this.transform.position.y), this.ladderClimbSpeed*Time.deltaTime);
-
-		if (this.transform.position.y >= this.target.size.y) {
+		this.transform.position = Vector2.MoveTowards(this.transform.position, new Vector2(this.transform.position.x,this.target.size.y + 2.55f - this.transform.position.y), this.ladderClimbSpeed*Time.deltaTime);
+		Debug.Log (this.transform.position.y); 
+		Debug.Log (this.target.size.y); 
+		if (this.transform.position.y >= this.target.size.y/2.0f) {
 			Debug.Log("I should be fking done"); 
 			this.climbing = false; 
 			this.transform.parent = Camera.main.transform; 
@@ -141,7 +142,7 @@ public class Jun : Character {
 				Debug.Log ("shoudl exit yellowTimeout"); 
 				//do stuff with camera
 //				this.endPos = new Vector3 (Camera.main.transform.position.x + this.transform.localPosition.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
-				this.endPos = new Vector3 (GameManager.instance.camera2.transform.position.x + this.transform.localPosition.x, GameManager.instance.camera2.transform.position.y, GameManager.instance.camera2.transform.position.z);
+//				this.endPos = new Vector3 (GameManager.instance.camera2.transform.position.x + this.transform.localPosition.x, GameManager.instance.camera2.transform.position.y, GameManager.instance.camera2.transform.position.z);
 //				this.transform.parent = null; 
 				GameManager.instance.camera2.enabled = true; 
 //				Camera.main.enabled = false; 
@@ -192,6 +193,13 @@ public class Jun : Character {
 			GameManager.instance.camera2.GetComponent<MovePlatform>().lerping = true;  
 			this.timer = 0.0f;
 			this.movingCamera = false; 
+
+			Camera.main.GetComponent<MovePlatform>().lerping = false; 
+			Camera.main.transform.position = GameManager.instance.camera2.transform.position; 
+			this.transform.parent = Camera.main.transform; 
+			Camera.main.GetComponent<MovePlatform>().lerping = true; 
+			GameManager.instance.camera2.enabled = false; 
+			Camera.main.enabled = true; 
 		}
 	}
 	
