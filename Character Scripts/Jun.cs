@@ -133,22 +133,26 @@ public class Jun : Character {
 	}
 
 	void correctPosition(){ 
-		if (this.transform.localPosition.x < this.yellowZone && this.transform.localPosition.x > this.redZone + 0.2f) {
+		if (this.transform.localPosition.x < this.yellowZone /*&& this.transform.localPosition.x > this.redZone + 0.2f*/) {
 			//yellow zone
 			this.timer += Time.deltaTime; 
 
 			if (this.timer >= this.yellowTimeout) {
 				Debug.Log ("shoudl exit yellowTimeout"); 
 				//do stuff with camera
-				this.endPos = new Vector3 (Camera.main.transform.position.x + this.transform.localPosition.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
-				this.transform.parent = null; 
-				MovePlatform.instance.lerping = false; 
+//				this.endPos = new Vector3 (Camera.main.transform.position.x + this.transform.localPosition.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
+				this.endPos = new Vector3 (GameManager.instance.camera2.transform.position.x + this.transform.localPosition.x, GameManager.instance.camera2.transform.position.y, GameManager.instance.camera2.transform.position.z);
+//				this.transform.parent = null; 
+				GameManager.instance.camera2.enabled = true; 
+//				Camera.main.enabled = false; 
+				GameManager.instance.camera2.GetComponent<MovePlatform>().lerping = false; 
+//				MovePlatform.instance.lerping = false; 
 				this.movingCamera = true; 
 			} 
-		} else if (this.transform.localPosition.x > this.redZone - 0.2f && this.transform.localPosition.x < this.redZone + 0.2f) {
+		} /*else if (this.transform.localPosition.x > this.redZone - 0.2f && this.transform.localPosition.x < this.redZone + 0.2f) {
 			//boundary between zones
 			this.timer = 0; 
-		}else if (this.transform.localPosition.x < this.redZone - 0.2f) { 
+		} else if (this.transform.localPosition.x < this.redZone - 0.2f) { 
 			//red zones
 			this.timer += Time.deltaTime; 
 
@@ -162,19 +166,32 @@ public class Jun : Character {
 				MovePlatform.instance.lerping = false; 
 				this.movingCamera = true; 
 			}
-		}
+		}*/
 	}
 
 	void moveCamera(){
 		Debug.Log ("move camera"); 
-		float x = Mathf.Lerp(Camera.main.transform.position.x,this.endPos.x,this.cameraResetSpeed*Time.deltaTime); 
-		Camera.main.transform.position = new Vector3 (x, Camera.main.transform.position.y, Camera.main.transform.position.z); 
+		Debug.Log (GameManager.instance.camera2.transform.position); 
+		Debug.Log (this.transform.position); 
+//		float x = Mathf.Lerp(Camera.main.transform.position.x,this.endPos.x,this.cameraResetSpeed*Time.deltaTime); 
+//		float x = Mathf.Lerp(GameManager.instance.camera2.transform.position.x,this.endPos.x,this.cameraResetSpeed*Time.deltaTime);
+		float x = Mathf.Lerp(GameManager.instance.camera2.transform.position.x,this.transform.position.x,this.cameraResetSpeed*Time.deltaTime); 
+//		Camera.main.transform.position = new Vector3 (x, Camera.main.transform.position.y, Camera.main.transform.position.z); 
+		GameManager.instance.camera2.transform.position = new Vector3 (x, GameManager.instance.camera2.transform.position.y, GameManager.instance.camera2.transform.position.z); 
+		
 
-		if (Camera.main.transform.position.x <= this.endPos.x + 0.2f) {
+//		if (Camera.main.transform.position.x <= this.endPos.x + 0.2f) {
+//			Debug.Log("here"); 
+//			this.transform.parent = Camera.main.transform; 
+//			MovePlatform.instance.lerping = true; 
+//			this.timer = 0.0f; 	
+//		}
+		if (GameManager.instance.camera2.transform.position.x <= this.transform.position.x + 0.2f) {
 			Debug.Log("here"); 
-			this.transform.parent = Camera.main.transform; 
-			MovePlatform.instance.lerping = true; 
-			this.timer = 0.0f; 	
+			this.transform.parent = GameManager.instance.camera2.transform; 
+			GameManager.instance.camera2.GetComponent<MovePlatform>().lerping = true;  
+			this.timer = 0.0f;
+			this.movingCamera = false; 
 		}
 	}
 	

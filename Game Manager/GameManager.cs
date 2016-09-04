@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
 	
 	public static GameManager instance;
 
-	private Camera camera2; 
+	public Camera camera2; 
 
 	[SerializeField]
 	private GameObject junExternal;
@@ -127,7 +127,8 @@ public class GameManager : MonoBehaviour {
 		platforms [20] = new Block ("T", "D", "fin", finalPlatform);
 
 //		dangerZone = GameObject.FindGameObjectWithTag ("DangerZone");
-
+		this.camera2 = GameObject.FindGameObjectWithTag ("Camera_2").GetComponent<Camera> (); 
+		this.camera2.enabled = false; 
 
 		CalcBlockOrder (blockArr);
 		LoadLevel (blockArr);
