@@ -1,24 +1,22 @@
-#Changes made on Sunday 
+#Nature's Call 
 
-1. Add the following GameObjects : 
-	1. DangerZone at -14.23x 
-	2. CameraBoundaryRight at 8.22x
-	* Attach appropriate scripts from Boundary Scripts 
-	* Add those to Boundary Prefabs 
-	* Make them both a sub-object of Main Camera
+**this is not an individual project and was developed in collaboration with coders and animators part of Imperial College Game Developement Society** 
 
-2. Reduce the player size using scale to 75%
+The plot of the original game was to have a main villian who clogged up all the toilets in a city and the main character (a janitor) needs to run through the levels to unclog all these toilets. 
 
-#Things to do 
-1. Change platform and player colliders 
-2. Make camera follow player up and down levels 
-3. Make player jump routine better 
-4. **Smaller player** 
-5. **Sliding collider change**
-6. Climbing up ladder and slide down slides
-7. Speed while sliding is slow **~**
-8. **If the screen catches up to you then your dead, if you catch up to the screen the screen lerps**
-9. **Make parallax work with screen lerp**
-	
+The scripts above are for the first "sewer" level of the game where the character is running through a sewer. The entire game with all the unity assets can be found here: https://www.dropbox.com/sh/xrjens1pmdtdesi/AAD8P6OhcCgQE05TAoc4zXwma?dl=0 to download and build on unity. 
+
+The levels were made by splitting up the level into 15 blocks and randomising the order in whichthese blocks appear each time the game is restarted. This means consecutive runs of the game are not identical. 
+
+The controls for the game are: 
+Up arrow - jump 
+Down arrow - slide 
+Right arrow - speed up 
+Left arrow - slow down 
+
+s - attack 
+a - grab onto ropes, wheels etc. 
+
+This is my first attempt to build a unity 2D game so please excuse any glitches/wierdness of the gameplay :) Enjoy! 
 
 
