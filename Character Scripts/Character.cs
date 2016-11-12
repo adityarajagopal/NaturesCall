@@ -4,7 +4,7 @@ using System.Collections;
 public abstract class Character : MonoBehaviour {
 
 	protected Rigidbody2D myBody;
-	protected Animator anim;
+	public Animator anim;
 	protected BoxCollider2D boxCollider;
 	protected float health;
 

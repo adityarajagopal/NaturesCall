@@ -3,12 +3,12 @@ using System.Collections;
 
 public class Rat : Enemy {
 
-	public static Rat instance;
+	public int direction; 
+	private bool moving; 
 
-	private bool isJumping;
-	private bool isMoving = false;
-	private float moveForceX = -10f;
-	
+	public static Rat instance;
+	public float ratSpeed; 
+		
 	void Awake(){
 		if (instance == null) {
 			instance = this;
@@ -18,7 +18,9 @@ public class Rat : Enemy {
 		myBody = GetComponent<Rigidbody2D> (); 
 		anim = GetComponent<Animator> ();
 
-		isMoving = true;
+		this.direction = -1;
+		this.ratSpeed = 2.5f;
+		this.moving = true; 
 	}
 
 	// Use this for initialization
@@ -32,12 +34,27 @@ public class Rat : Enemy {
 	}
 
 	void FixedUpdate(){
-		move ();
+		if (this.moving) {
+			move ();
+		}
 	}
 
 	public void move(){
-		if (isMoving) {
-			myBody.velocity = new Vector2(moveForceX,myBody.velocity.y);
+		if (this.direction == 1) {
+//			Debug.Log ("moving right");
+			this.transform.position = Vector3.MoveTowards (this.transform.position, this.transform.position + Vector3.right, this.ratSpeed * Time.deltaTime); 
+		} else if (this.direction == -1) {
+//			Debug.Log ("moving left"); 
+			this.transform.position = Vector3.MoveTowards (this.transform.position, this.transform.position + Vector3.left, this.ratSpeed * Time.deltaTime); 
+		}
+//		this.myBody.AddForce(new Vector2(this.direction*this.ratSpeed, 0f)); 
+	}
+
+	void OnTriggerEnter2D(Collider2D target){
+		if (target.tag == "ChangeDirection") {
+			Debug.Log ("hit collider"); 
+			this.direction = this.direction * -1;
+			this.transform.Rotate (new Vector3 (0f, 180f, 0f)); 
 		}
 	}
 }
